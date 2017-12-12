@@ -9,6 +9,7 @@ function setup(){
 
 function draw(){
   fill(random(255),random(255),random(255));
-  ellipse(mouseX,mouseY,random(5,20));
-  socket.emit("test",mouseX+" "+mouseY);
+  var value=[mouseX,mouseY,random(5,20)]
+  ellipse(value[0],value[1],value[2]);
+  socket.emit("test",value);
 }
