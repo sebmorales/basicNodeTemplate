@@ -21,11 +21,6 @@ const io = new Server(server, {
   }
 });
 
-// SECURITY MIDDLEWARE
-app.use(helmet({
-  contentSecurityPolicy: false, // Disabled for p5.js compatibility
-}));
-
 // STATIC FILE SERVING
 // Serves all files from the 'public' folder
 app.use(express.static(join(__dirname, 'public')));
