@@ -1,51 +1,69 @@
-//Express
-var express = require('express');
-var app = express();
-var https = require('https');
+//  Socket.io + p5.js Template + Node.js Express Server
+// Simple template for real-time applications using Socket.io and p5.js
 
-var http = require('http').createServer(app);
-var port = process.env.PORT || 4000;
-var server = app.listen(port);
-var fs = require('fs');
+// Import required modules using ES6 syntax (modern JavaScript)
+import express from 'express';           // Web framework for creating the server
+import { createServer } from 'http';     // Node.js HTTP server
+import { Server } from 'socket.io';      // Real-time communication library
 
-//ejs
-var ejs = require('ejs');
+// EXPRESS SERVER SETUP
+const app = express();
+app.use(express.static('./public'));
+const port = process.env.PORT || 4000;
+const server = createServer(app);
 
-//Sockets
-var socket = require('socket.io').listen(server);
-console.log("running on port "+port)
-
-//Setup public lib
-app.use(express.static(__dirname + '/public'));
-//Setup the views folder
-app.set("views", __dirname + '/views');
-
-//Setup ejs, so I can write HTML (:
-app.engine('.html', ejs.__express);
-app.set('view-engine', 'html');
-
-
-//Router
-app.get("/test", function(req, res){
-    res.render("test.html")
-});
-app.get("/test2", function(req, res){
-    res.render("test2.html")
+// SOCKET.IO SETUP with backwards compatibility
+const io = new Server(server, {
+  allowEIO3: true, // Allows older clients (Socket.io 2.x) to connect - useful for Node-RED
+  cors: {
+    origin: "*",        // Allow connections from any website (restrict in production!)
+    methods: ["GET", "POST"]
+  }
 });
 
+// SECURITY MIDDLEWARE
+app.use(helmet({
+  contentSecurityPolicy: false, // Disabled for p5.js compatibility
+}));
 
-socket.on('connection', function(client){
-    console.log("new connection");
-    client.on('test', function(value){
-        // console.log(value);
-        socket.emit('test', value );
-      // soket.emit('test',value);
-      //do something
-      // console.log("client sent: "+ value)
-    });
+// STATIC FILE SERVING
+// Serves all files from the 'public' folder
+app.use(express.static(join(__dirname, 'public')));
 
-    client.on('disconnect', function(){
-        console.log("A user dissconected.");
+// SOCKET.IO REAL-TIME COMMUNICATION
+// This is where the magic happens! Socket.io manages connections between clients and server
+// Every time someone opens your website, this 'connection' event fires
 
-    });
+io.on('connection', (client) => {
+  console.log(`New client connected: ${client.id}`);
+  
+  // EVENT LISTENERS - these listen for messages from clients
+  // When a client sends a message with a specific name, the corresponding function runs
+  
+  // you can make as many eventnames as you want. As long as the clients are sending/listenting to them.
+  client.on('test', (value) => {
+    io.emit('test', value);
+  });
+  
+  client.on('relay', (value) => {
+    //Sometimes it's useful to have a generic eventname, where you can send any data without having to updated the server.
+    // You can also have layers of routing for example: {"type: "draw", "data: {x:0, y:0 }}"
+    // Then the clients get all the data and decide what to do with it based on the "type" value.
+    io.emit('relay', value);
+  });
+
+  // Handle client disconnection
+  client.on('disconnect', () => {
+    console.log(`Client disconnected: ${client.id}`);
+    // You could add cleanup code here if needed
+    // For example: remove user from a user list, save their work, etc.
+  });
+});
+
+// START THE SERVER
+server.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+  console.log(`Draw example: http://localhost:${port}/draw-example/`);
+  console.log(`View example: http://localhost:${port}/view-example/`);
+
 });
