@@ -23,7 +23,7 @@ const io = new Server(server, {
 
 // STATIC FILE SERVING
 // Serves all files from the 'public' folder
-app.use(express.static(join(__dirname, 'public')));
+app.use(express.static('./public'));
 
 // SOCKET.IO REAL-TIME COMMUNICATION
 // This is where the magic happens! Socket.io manages connections between clients and server
