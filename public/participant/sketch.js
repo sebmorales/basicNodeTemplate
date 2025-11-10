@@ -3,7 +3,7 @@ let socket = io();
 // All available sounds and images
 const allSounds = ['bird1.mp3', 'bubble1.wav', 'bubble2.wav', 'bubble3.wav', 'bubble4.wav', 'bubble5.wav', 'bubble6.wav', 'bubble7.wav', 'click.wav', 'click2.wav', 'click3.wav', 'click4.wav', 'click5.wav', 'cracking1.wav', 'cracking2.wav', 'cracking3.wav', 'cracking4.wav', 'pop.wav'];
 
-const allImages = ['bug.jpg', 'cat.gif', 'giphy.gif', 'moodeng.gif', 'moodeng2.gif', 'thumbnails_computer.jpg', 'thumbnails_forest.jpg', 'thumbnails_sky.jpg', 'thumbnails_subway.jpg', 'thumbnails_taxi.jpg', 'thumbnails_underground.jpg'];
+const allImages = ['bug.jpg', 'cat.gif', 'computer.jpg', 'forest.jpg', 'giphy.gif', 'moodeng.gif', 'moodeng2.gif', 'mosquito.jpg', 'pie.jpg', 'sky.jpg', 'subway.jpg', 'taxi.jpg', 'underground.jpg'];
 
 // Participant's random selection
 let mySounds = [];
@@ -26,7 +26,7 @@ function setup() {
     let btn = createButton(`SOUND: ${mySounds[i].split('.')[0]}`);
     btn.position(buttonMargin, buttonHeight * (i + 1));
     btn.size(buttonWidth, buttonHeight);
-    btn.style('font-size', `${windowHeight/16}px`);
+    btn.style('font-size', `${windowHeight/16 * 2/3}px`);
     btn.mousePressed(() => sendSound(mySounds[i]));
     soundButtons.push(btn);
   }
@@ -36,7 +36,7 @@ function setup() {
     let btn = createButton(`IMAGE: ${myImages[i].split('.')[0]}`);
     btn.position(buttonMargin, buttonHeight * (i + 6));
     btn.size(buttonWidth, buttonHeight);
-    btn.style('font-size', `${windowHeight/16}px`);
+    btn.style('font-size', `${windowHeight/16 * 2/3}px`);
     btn.mousePressed(() => sendImage(myImages[i]));
     imageButtons.push(btn);
   }
@@ -51,7 +51,7 @@ function draw() {
   // Title
   fill(0);
   textAlign(CENTER, CENTER);
-  textSize(windowHeight/16);
+  textSize(windowHeight/16 * 2/3);
   text('Participant Interface', width/2, windowHeight/24);
 }
 

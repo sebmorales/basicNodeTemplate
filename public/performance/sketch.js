@@ -1,5 +1,5 @@
 let socket = io();
-let images_src=["bug.jpg","cat.gif","giphy.gif","moodeng.gif","moodeng2.gif","thumbnails_computer.jpg","thumbnails_forest.jpg","thumbnails_sky.jpg","thumbnails_subway.jpg","thumbnails_taxi.jpg","thumbnails_underground.jpg"]
+let images_src=["bug.jpg","cat.gif","computer.jpg","forest.jpg","giphy.gif","moodeng.gif","moodeng2.gif","mosquito.jpg","pie.jpg","sky.jpg","subway.jpg","taxi.jpg","underground.jpg"]
 let image_folder="/images/"
 let images=[]
 let sounds_src=["bubble1.wav","bubble2.wav","bubble3.wav","bubble4.wav","bubble5.wav","bubble6.wav","bubble7.wav","click.wav","click2.wav","click3.wav","click4.wav","click5.wav","cracking1.wav","cracking2.wav","cracking3.wav","cracking4.wav","pop.wav","bird1.mp3"]
