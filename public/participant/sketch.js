@@ -17,20 +17,24 @@ function setup() {
   mySounds = getRandomItems(allSounds, 4);
   myImages = getRandomItems(allImages, 4);
   
-  // Create sound buttons using p5.dom
+  let buttonHeight = windowHeight / 12;
+  let buttonMargin = 20;
+  let buttonWidth = windowWidth - (buttonMargin * 2);
+  
+  // Create sound buttons using p5.dom (full width, stacked)
   for(let i = 0; i < 4; i++) {
-    let btn = createButton(`${mySounds[i].split('.')[0]}`);
-    btn.position(50 + i * 80, 120);
-    btn.size(60, 40);
+    let btn = createButton(`SOUND: ${mySounds[i].split('.')[0]}`);
+    btn.position(buttonMargin, buttonHeight * (i + 1));
+    btn.size(buttonWidth, buttonHeight);
     btn.mousePressed(() => sendSound(mySounds[i]));
     soundButtons.push(btn);
   }
   
-  // Create image buttons using p5.dom
+  // Create image buttons using p5.dom (full width, stacked)
   for(let i = 0; i < 4; i++) {
-    let btn = createButton(`${myImages[i].split('.')[0]}`);
-    btn.position(50 + i * 80, 260);
-    btn.size(60, 40);
+    let btn = createButton(`IMAGE: ${myImages[i].split('.')[0]}`);
+    btn.position(buttonMargin, buttonHeight * (i + 6));
+    btn.size(buttonWidth, buttonHeight);
     btn.mousePressed(() => sendImage(myImages[i]));
     imageButtons.push(btn);
   }
@@ -40,25 +44,13 @@ function setup() {
 }
 
 function draw() {
-  background(240);
+  background(255);
   
   // Title
   fill(0);
   textAlign(CENTER, CENTER);
-  textSize(20);
-  text('Participant Interface', width/2, 30);
-  
-  // Sound section title
-  textSize(18);
-  text('SOUNDS', width/2, 80);
-  
-  // Image section title
-  text('IMAGES', width/2, 220);
-  
-  // Instructions
-  textSize(14);
-  fill(100);
-  text('Click buttons to send sounds/images', width/2, 350);
+  textSize(24);
+  text('Participant Interface', width/2, windowHeight/24);
 }
 
 function getRandomItems(array, count) {
