@@ -1,0 +1,96 @@
+let socket = io();
+let images_src=["bug.jpg","cat.gif","giphy.gif","moodeng.gif","moodeng2.gif","thumbnails_computer.jpg","thumbnails_forest.jpg","thumbnails_subway.jpg","thumbnails_taxi.jpg","thumbnails_underground.jpg"]
+let image_folder="/images/"
+let images=[]
+let sounds_src=["bubble1.wav","bubble2.wav","bubble3.wav","bubble4.wav","bubble5.wav","bubble6.wav","bubble7.wav","click.wav","click2.wav","click3.wav","click4.wav","click5.wav","crackling1.wav","crackling2.wav","crackling3.wav","crackling4.wave","pop.wav","bird1.mp3"]
+let sounds_folder="/sounds/"
+let sounds=[]
+let current_image;
+let current_text;
+let h,w;
+function preload(){
+  for(let i=0;i<images_src.length;i++){
+    images.push(loadImage(image_folder+images_src[i]))
+  }
+  for(let j=0;i<sounds_src.length;j++){
+    sounds.push(loadImage(sounds_folder+sounds_src[i]))
+  }
+
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  textAlign(CENTER,CENTER)
+  imageMode(CENTER)
+  current_image=random(images)
+}
+
+function draw() {
+    image(current_image,width/2,height/2,w,h)
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+socket.on("relay", (msg) => {
+
+  if(msg.type=="sound" || msg.type == "image"){
+    clear();
+    if (msg.type=="image"){
+        placeImage(msg.value);
+    }
+    // randomImage()
+    // randomWord()
+  }
+});
+
+function placeImage(img_requested){
+    let img;
+    for (let i=0;i<images_src.length;i++){
+        if(images_src[i]==img_requested){
+            img=images[i];
+        }
+    }
+  let tall_image=false;
+  if(img.height>img.width){
+     h=height-height/10;
+     w=h/img.height*img.width
+    current_image=img;
+  }else{
+     w=width-width/10;
+     h=w/img.width*img.height
+  }
+  current_image=img;
+}
+
+function playSound(sound_requested){
+    let sound;
+    for (let i=0;i<sounds_src.length;i++){
+        if(sounds_src[i]==sound_requested){
+            sound=sounds[i];
+        }
+    }
+    sound.play();
+}
+
+
+// function randomWord(){
+//   let c=color(255)
+//   let s=random(height/50,height/2)
+//   fill(c);
+//   textSize(s)
+//   current_text=random(words)
+// }
+
+// function mousePressed(){
+//   clear();
+//   randomImage();
+//   randomWord();
+// }
+
+// function keyPressed(){
+//   if(key==" "){
+//     socket.emit("relay", { type: "word" });
+//   }
+// }

@@ -8,7 +8,6 @@ import { Server } from 'socket.io';      // Real-time communication library
 
 // EXPRESS SERVER SETUP
 const app = express();
-app.use(express.static('./public'));
 const port = process.env.PORT || 4000;
 const server = createServer(app);
 
