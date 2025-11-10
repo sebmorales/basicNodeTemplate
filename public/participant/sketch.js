@@ -26,6 +26,7 @@ function setup() {
     let btn = createButton(`SOUND: ${mySounds[i].split('.')[0]}`);
     btn.position(buttonMargin, buttonHeight * (i + 1));
     btn.size(buttonWidth, buttonHeight);
+    btn.style('font-size', `${windowHeight/16}px`);
     btn.mousePressed(() => sendSound(mySounds[i]));
     soundButtons.push(btn);
   }
@@ -35,6 +36,7 @@ function setup() {
     let btn = createButton(`IMAGE: ${myImages[i].split('.')[0]}`);
     btn.position(buttonMargin, buttonHeight * (i + 6));
     btn.size(buttonWidth, buttonHeight);
+    btn.style('font-size', `${windowHeight/16}px`);
     btn.mousePressed(() => sendImage(myImages[i]));
     imageButtons.push(btn);
   }
@@ -49,7 +51,7 @@ function draw() {
   // Title
   fill(0);
   textAlign(CENTER, CENTER);
-  textSize(windowHeight/15);
+  textSize(windowHeight/16);
   text('Participant Interface', width/2, windowHeight/24);
 }
 
