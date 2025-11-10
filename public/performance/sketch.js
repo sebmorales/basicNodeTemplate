@@ -8,6 +8,8 @@ let sounds=[]
 let current_image;
 let current_text;
 let h,w;
+let started=false;
+
 function preload(){
   for(let i=0;i<images_src.length;i++){
     images.push(loadImage(image_folder+images_src[i]))
@@ -22,6 +24,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER,CENTER)
   imageMode(CENTER)
+  text("Click to start",width/2,height/2);
   // current_image=random(images)
 }
 
@@ -33,11 +36,14 @@ function windowResized() {
 }
 
 socket.on("relay", (msg) => {
+    clear();
 
   if(msg.type=="sound" || msg.type == "image"){
-    clear();
     if (msg.type=="image"){
         placeImage(msg.value);
+    }
+    else if(msg.type=="sound"){
+        playSound(msg.value);
     }
     
     // randomImage()
@@ -67,6 +73,7 @@ function placeImage(img_requested){
 }
 
 function playSound(sound_requested){
+  if(started){
     let sound;
     for (let i=0;i<sounds_src.length;i++){
         if(sounds_src[i]==sound_requested){
@@ -74,6 +81,7 @@ function playSound(sound_requested){
         }
     }
     sound.play();
+  }
 }
 
 
@@ -85,11 +93,9 @@ function playSound(sound_requested){
 //   current_text=random(words)
 // }
 
-// function mousePressed(){
-//   clear();
-//   randomImage();
-//   randomWord();
-// }
+function mousePressed(){
+  started=true;
+}
 
 // function keyPressed(){
 //   if(key==" "){

@@ -49,7 +49,7 @@ function draw() {
   // Title
   fill(0);
   textAlign(CENTER, CENTER);
-  textSize(24);
+  textSize(windowHeight/15);
   text('Participant Interface', width/2, windowHeight/24);
 }
 
